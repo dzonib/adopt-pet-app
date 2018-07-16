@@ -19,6 +19,8 @@ const resolvers = {
     hello: (_, {
       name
     }) => `Hello ${name || 'World'}`,
+    getAnimals: () => AnimalModel.find(),
+    getAnimal: (_, {id}) => AnimalModel.findById(id)
   },
   Mutation: {
     addAnimal: async (_, {

@@ -2,6 +2,12 @@ type Query {
   hello(name: String): String
   getAnimals: [Animal]
   getAnimal(id: ID!): Animal
+  getShelters: [Shelter]
+}
+
+type Mutation {
+  addAnimal(type: String!, age: Int!, name: String!, shelterId: ID!): Animal
+  addShelter(city: String!, name: String!): Shelter
 }
 
 type Animal {
@@ -10,8 +16,12 @@ type Animal {
   age: Int!
   name: String!
   shelterId: ID!
+  shelter: Shelter
 }
 
-type Mutation {
-  addAnimal(type: String!, age: Int!, name: String!, shelterId: ID!): Animal
+type Shelter {
+  id: ID
+  name: String!
+  city: String!
+  animals: [Animal]
 }

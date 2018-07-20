@@ -13,15 +13,16 @@ mongoose.connect(db, {
   .catch((e) => `ERROR! --> ${e}`)
 
 const AnimalModel = require('./models/Animal');
+const ShelterModel = require('./models/Shelter');
 
 const resolvers = {
   Query: {
-    hello: (_, {
-      name
-    }) => `Hello ${name || 'World'}`,
+    hello: (_, {name}) => `Hello ${name || 'World'}`,
     getAnimals: () => AnimalModel.find(),
-    getAnimal: (_, {id}) => AnimalModel.findById(id)
+    getAnimal: (_, {id}) => AnimalModel.findById(id),
+    getShelters:() => ShelterModel.find({})
   },
+  
   Mutation: {
     addAnimal: async (_, {
       name,
@@ -35,8 +36,15 @@ const resolvers = {
         shelterId,
         age
       })
-
       return Animal.save()
+    },
+    addShelter: (_, {name, city}) => {
+      const shelter = new ShelterModel({
+        name,
+        city
+      });
+
+      return shelter.save()
     }
   }
 }

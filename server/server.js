@@ -17,12 +17,18 @@ const ShelterModel = require('./models/Shelter');
 
 const resolvers = {
   Query: {
-    hello: (_, {name}) => `Hello ${name || 'World'}`,
     getAnimals: () => AnimalModel.find(),
     getAnimal: (_, {id}) => AnimalModel.findById(id),
     getShelters:() => ShelterModel.find({})
   },
-  
+  Shelter: {
+    animals: (parent, args) => {
+      return AnimalModel.find({id: parent.shelterId})
+    }
+  },
+  Animal: {
+    shelter: (parent, args) => ShelterModel.findById(parent.ShelteId)
+  },
   Mutation: {
     addAnimal: async (_, {
       name,
@@ -38,13 +44,30 @@ const resolvers = {
       })
       return Animal.save()
     },
-    addShelter: (_, {name, city}) => {
-      const shelter = new ShelterModel({
+    addShelter: async (_, {name, city, zipCode}) => {
+      const shelter = await new ShelterModel({
         name,
-        city
+        city,
+        zipCode
       });
 
       return shelter.save()
+    },
+    removeAnimal: async (_, {id}) => {
+      return AnimalModel.findByIdAndRemove(id)
+    },
+    editAnimal: async (_, {id, type, age, name, shelterId}) => {
+      const animal = await AnimalModel.findById(id)
+
+      const {type:newType, age:newAge, name:newName} = animal;
+
+      const updatedAnimal = {
+        ...animal
+      }
+      console.log(animal)
+
+      await AnimalModel.findByIdAndUpdate(id, {...updatedAnimal})
+      return AnimalModel.findById(id)
     }
   }
 }

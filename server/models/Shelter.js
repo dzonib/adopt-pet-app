@@ -11,6 +11,10 @@ const shelter = new Schema({
     type: String,
     required: true
   },
+  zipCode: {
+    type: Number,
+    required: true
+  },
   date: {
     type: Date,
     default: Date.now()

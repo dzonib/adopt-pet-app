@@ -1,5 +1,4 @@
 type Query {
-  hello(name: String): String
   getAnimals: [Animal]
   getAnimal(id: ID!): Animal
   getShelters: [Shelter]
@@ -7,7 +6,9 @@ type Query {
 
 type Mutation {
   addAnimal(type: String!, age: Int!, name: String!, shelterId: ID!): Animal
-  addShelter(city: String!, name: String!): Shelter
+  addShelter(city: String!, name: String!, zipCode: Int!): Shelter
+  editAnimal(id: ID!, type: String, age: Int, name: String, shelterId: ID): Animal
+  removeAnimal(id: ID!): Animal
 }
 
 type Animal {
@@ -23,5 +24,6 @@ type Shelter {
   id: ID
   name: String!
   city: String!
+  zipCode: Int!
   animals: [Animal]
 }

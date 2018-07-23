@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-
-
-class App extends Comment {
+class App extends Component {
   render() {
     return (
       <div>
